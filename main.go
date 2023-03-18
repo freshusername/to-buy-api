@@ -1,18 +1,16 @@
 package main
 
 import (
-	"flag"
-	"net/http"
-
-	"github.com/freshusername/to-buy-api/api"
+	"github.com/freshusername/to-buy-api/database"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-	listenAddr := flag.String("listenaddr", ":3000", "todo")
-	flag.Parse()
+	database.ConnectDb()
 
-	http.HandleFunc("/user", api.HandleGetUser)
-	http.HandleFunc("/account", api.HandleGetAccount)
+	app := fiber.New()
 
-	http.ListenAndServe(*listenAddr, nil)
+	setupRoutes(app)
+
+	app.Listen(":3000")
 }
