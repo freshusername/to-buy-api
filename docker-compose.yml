@@ -5,10 +5,12 @@ services:
     build: .
     env_file:
       - .env
+    restart: always
     ports:
       - 3000:3000
-    volumes:
-      - .:/app
+    deploy:
+      mode: replicated
+      replicas: 1
     command: air main.go #-b 0.0.0.0 #air main.go -b 0.0.0.0
   db:
     image: postgres:latest

@@ -10,4 +10,8 @@ Useful commands:
 - docker compose build
 - docker compose up
 - docker compose run --service-ports api bash -> to run 'go get {package-name}' commands
-- 
+
+Topics to cover:
+- Goroutines
+- Testing
+- DB access / Gorm
