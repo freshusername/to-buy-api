@@ -5,6 +5,8 @@ Tools used:
 - hot reload: air
 - db: postgres
 - orm: gorm (go get gorm.io/driver/postgres) https://github.com/cosmtrek/air
+- gitlab-runner / docker
+- VPS (Ubuntu 22.04)
 
 Useful commands:
 - docker compose build
