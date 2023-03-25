@@ -22,7 +22,7 @@ build:
   tags:
     - docker
 
-tests:
+#tests:
 
 deploy:
   image: docker:stable
