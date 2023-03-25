@@ -1,20 +1,44 @@
-variables:
-  DOCKER_HOST: tcp://docker:2375/
-  DOCKER_DRIVER: overlay2
+#### Define stage list
 
-image:
-  name: docker/compose:latest
-
-services:
-  - docker:dind
-
-before_script:
-  - docker version
-  - docker compose version
+stages:
+ - build
+ - test
+ - deploy
 
 build:
+  image: docker:stable
   stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
   script:
-    - docker compose down
-    - docker compose build
-    - docker compose up to-buy-api
+    - ls
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest ./
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+  after_script:
+    - docker logout ${CI_REGISTRY}
+  tags:
+    - docker
+
+tests:
+
+deploy:
+  image: docker:stable
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+  stage: deploy
+  script:
+    - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+    - docker stop to-buy-api || true && docker rm to-buy-api || true
+    - docker run -dp 3000:3000 --name to-buy-api ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+  after_script:
+    - docker logout ${CI_REGISTRY}
+  environment:
+    name: production
+  only:
+    - main
