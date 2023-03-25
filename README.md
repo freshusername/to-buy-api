@@ -10,6 +10,10 @@ Useful commands:
 - docker compose build
 - docker compose up
 - docker compose run --service-ports api bash -> to run 'go get {package-name}' commands
+- docker build . -t local-tobuy-api
+- docker run -dp 3000:3000 --env-file .env local-tobuy-api -> running with .env file
+- docker stop local-tobuy-api || docker rm local-tobuy-api
+- 
 
 Topics to cover:
 - Goroutines
