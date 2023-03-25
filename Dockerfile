@@ -1,29 +1,22 @@
-FROM golang:latest as builder
+FROM golang:1.20.1 as builder
 
-RUN mkdir /app
 WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
+RUN go install github.com/cosmtrek/air@latest
+
+#retrieve application dependencies, copy go.mod & go.sum
+COPY go.mod ./
+COPY go.sum ./
 RUN go mod download
 
-RUN go install github.com/cosmtrek/air@latest
-#RUN go mod tidy
-COPY . .
+#copy local code to the container image
+COPY . ./ 
 
-RUN CGO_ENABLED=0 go build -o /tobuyapi
-#RUN make build
-RUN ls
+#print packages when building the binary
+RUN CGO_ENABLED=0 go build -v -o server
 
-#RUN chmod +x /app/tobuyapi
-
-# run in small image
-FROM alpine:latest
-RUN apk add --no-cache ca-certificates
-
-RUN mkdir /app
-
-COPY --from=builder /tobuyapi /app
-
+FROM alpine:latest as deploy
+COPY --from=builder /app/server /app/server
+COPY .env /app
 EXPOSE 3000
-CMD ["/app/tobuyapi"]
+CMD ["/app/server"]
