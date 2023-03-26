@@ -6,10 +6,11 @@ import (
 )
 
 func main() {
+
 	database.ConnectDb()
 
 	app := fiber.New()
-
+	setupCors(app)
 	setupRoutes(app)
 
 	app.Listen(":3000")
