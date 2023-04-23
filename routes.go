@@ -18,8 +18,6 @@ func setupCors(app *fiber.App) {
 	hostUrl := os.Getenv("DB_HOST")
 	originsList := fmt.Sprintf("http://localhost:5173, http://%s", hostUrl)
 
-	fmt.Println(originsList)
-
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: originsList,
 		AllowHeaders: "Origin, Content-Type, Accept",
