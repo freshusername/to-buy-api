@@ -23,7 +23,7 @@ build:
     - docker
 
 test:
-  image: docker:stable
+  image: golang:1.20.1
   services:
     - docker:dind
   stage: test
