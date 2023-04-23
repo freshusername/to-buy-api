@@ -22,7 +22,14 @@ build:
   tags:
     - docker
 
-#tests:
+test:
+  image: docker:stable
+  services:
+    - docker:dind
+  stage: test
+  script:
+    - "go test -v -cover ./..."
+    #- docker run $(docker build -f Dockerfile.test -q ./)     
 
 deploy:
   image: docker:stable
