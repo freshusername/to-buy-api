@@ -12,6 +12,7 @@ import (
 func setupRoutes(app *fiber.App) {
 	app.Get("/buyItems", api.HandleGetBuyItems)
 	app.Post("/buyItems", api.HandleCreateBuyItem)
+	app.Get("/", api.HealthCheck)
 }
 
 func setupCors(app *fiber.App) {
