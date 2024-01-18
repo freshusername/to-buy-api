@@ -42,8 +42,7 @@ deploy:
     - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
     - docker stop to-buy-api || true && docker rm to-buy-api || true
-    - echo ${DB_USER}
-    - docker run -dp 3000:3000 --env-file .env.local 
+    - docker run -dp 3000:3000 #--env-file .env.local 
       --env DB_HOST=${DB_HOST}
       --env DB_NAME=${DB_NAME}
       --env DB_PASSWORD=${DB_PASSWORD}
