@@ -1,5 +1,8 @@
 FROM golang:1.20.1 as builder
 
+ARG DB_HOST
+ARG UI_HOST
+
 WORKDIR /app
 
 RUN go install github.com/cosmtrek/air@latest
@@ -18,5 +21,9 @@ RUN CGO_ENABLED=0 go build -v -o server
 FROM alpine:latest as deploy
 COPY --from=builder /app/server /app/server
 COPY .env /app
+
+ENV DB_HOST=${DB_HOST}
+ENV UI_HOST=${UI_HOST}
+
 EXPOSE 3000
 CMD ["/app/server"]

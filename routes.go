@@ -17,7 +17,9 @@ func setupRoutes(app *fiber.App) {
 
 func setupCors(app *fiber.App) {
 	hostUrl := os.Getenv("DB_HOST")
+	uiUrl := os.Getenv("UI_HOST")
 	originsList := fmt.Sprintf("http://localhost:5173, http://%s", hostUrl)
+	originsList += fmt.Sprintf(", http://%s", uiUrl)
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: originsList,

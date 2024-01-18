@@ -15,7 +15,7 @@ build:
     - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
   script:
     - ls
-    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest ./
+    - docker build build --progress=plain --build-arg UI_HOST=$UI_HOST --build-arg DB_HOST=$DB_HOST -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest ./
     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
   after_script:
     - docker logout ${CI_REGISTRY}
@@ -42,7 +42,7 @@ deploy:
     - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
     - docker stop to-buy-api || true && docker rm to-buy-api || true
-    - docker run -dp 3000:3000 --env-file .env --env DB_HOST=${DB_HOST} --name to-buy-api ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+    - docker run -dp 3000:3000 --env DB_HOST=${DB_HOST} --env UI_HOST=${UI_HOST} --name to-buy-api ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
   after_script:
     - docker logout ${CI_REGISTRY}
   environment:
