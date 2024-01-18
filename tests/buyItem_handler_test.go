@@ -20,9 +20,9 @@ type BuyItemsTestSuite struct {
 
 func TestBuyItemsTestSuite(t *testing.T) {
 	//t.Setenv("DB_USER", "#dbuser#")
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("../.env.local")
 	if err != nil {
-		log.Fatal("Problem loading .env file")
+		log.Fatal("Problem loading .env.local file")
 		os.Exit(-1)
 	}
 	suite.Run(t, new(BuyItemsTestSuite))

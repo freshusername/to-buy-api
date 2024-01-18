@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 go build -v -o server
 
 FROM alpine:latest as deploy
 COPY --from=builder /app/server /app/server
-COPY .env /app
+#COPY .env.local /app - works only locally
 
 ENV DB_HOST=${DB_HOST}
 ENV UI_HOST=${DB_NAME}
