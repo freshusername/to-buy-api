@@ -27,10 +27,10 @@ COPY --from=builder /app/server /app/server
 #COPY .env.local /app - works only locally
 
 ENV DB_HOST=${DB_HOST}
-ENV UI_HOST=${DB_NAME}
-ENV DB_HOST=${DB_PASSWORD}
-ENV UI_HOST=${DB_PORT}
-ENV DB_HOST=${DB_USER}
+ENV DB_NAME=${DB_NAME}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_PORT=${DB_PORT}
+ENV DB_USER=${DB_USER}
 ENV UI_HOST=${UI_HOST}
 
 EXPOSE 3000
